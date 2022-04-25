@@ -1,0 +1,23 @@
+***Create group with uniq ID 1050
+sudo groupadd -g 1050 bmirrakhimov_group
+***Create userd with specific ID and and to existing group
+sudo useradd bmirrakhimov -u 1040 -g 1050 -d /home/bmirrakhimov_home -s /bin/bash
+***Add user to 24(CDROM) group
+sudo usermod -aG 24 bmirrakhimov
+***Add password to the new created user
+sudo passwd bmirrakhimov
+
+***Connect to VM using SSH key as nsurname
+ssh-keygen -C "epam-vm" -t rsa -b 4096
+***Give new directory and name
+/home/ubuntu/.ssh/bmirrakhimov.pem
+***Change the config file on remote VM
+sudo vim /etc/ssh/sshd_config
+Replace PasswordAuthentication no to PasswordAuthentication yes
+***Copy pub key to remote vm
+ssh-copy-id -i ~/.ssh/bmirrakhimov.pem.pub bmirrakhimov@172.17.91.44
+***Login to remote vm
+ssh -i ~/.ssh/bmirrakhimov.pem/ bmirrakhimov@172.17.91.44
+***Change the config file on remote VM
+sudo vim /etc/ssh/sshd_config
+Replace PasswordAuthentication yes to PasswordAuthentication no
