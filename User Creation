@@ -13,11 +13,29 @@ ssh-keygen -C "epam-vm" -t rsa -b 4096
 /home/ubuntu/.ssh/bmirrakhimov.pem
 ***Change the config file on remote VM
 sudo vim /etc/ssh/sshd_config
+sudo service sshd reload
 Replace PasswordAuthentication no to PasswordAuthentication yes
 ***Copy pub key to remote vm
 ssh-copy-id -i ~/.ssh/bmirrakhimov.pem.pub bmirrakhimov@172.17.91.44
+
 ***Login to remote vm
 ssh -i ~/.ssh/bmirrakhimov.pem/ bmirrakhimov@172.17.91.44
 ***Change the config file on remote VM
 sudo vim /etc/ssh/sshd_config
 Replace PasswordAuthentication yes to PasswordAuthentication no
+***Create user jump for jumphost
+sudo useradd -m -s /bin/bash -c "jump server" jump
+*** Change password for new user
+sudo passwd epam2
+***Create jumhost config file
+### First jump host. Directly reachable
+Host jumpohost
+  HostName 172.17.84.194
+  User jump
+  Port 22
+
+### Host to jump to via jumphost1.example.org
+Host epam2
+  HostName 172.17.80.176
+  User epam2
+  ProxyJump jumpohost
