@@ -18,7 +18,7 @@ Replace PasswordAuthentication no to PasswordAuthentication yes
 ***Copy pub key to remote vm
 ssh-copy-id -i ~/.ssh/bmirrakhimov.pem.pub bmirrakhimov@172.17.91.44
 
-***Login to remote vm
+***Login to host
 ssh -i ~/.ssh/bmirrakhimov.pem/ bmirrakhimov@172.17.91.44
 ***Change the config file on remote VM
 sudo vim /etc/ssh/sshd_config
@@ -39,3 +39,15 @@ Host epam2
   HostName 172.17.80.176
   User epam2
   ProxyJump jumpohost
+
+
+***Sudo Rights
+***Take backup of config file
+cp /etc/sudoers /root/sudoers.bak
+***Edit file
+sudo visudo /etc/sudoers
+***Add
+bmirrakhimov ALL = NOPASSWD:/usr/bin/apt-get, /usr/bin/install
+***Reset group
+sudo newgrp
+cp /etc/sudoers /root/sudoers.bak
