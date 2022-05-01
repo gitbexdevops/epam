@@ -47,7 +47,7 @@ cp /etc/sudoers /root/sudoers.bak
 ***Edit file
 sudo visudo /etc/sudoers
 ***Add
-bmirrakhimov ALL = NOPASSWD:/usr/bin/apt-get, /usr/bin/install
+bmirrakhimov ALL = NOPASSWD:/usr/bin/apt-get, /usr/bin/install, /usr/bin/apt
 ***Reset group
 sudo newgrp
 cp /etc/sudoers /root/sudoers.bak
