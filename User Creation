@@ -51,3 +51,18 @@ bmirrakhimov ALL = NOPASSWD: /usr/bin/apt , /usr/bin/apt-get , PASSWD: /usr/bin/
 ***Reset group
 sudo newgrp
 cp /etc/sudoers /root/sudoers.bak
+
+***Create a physical volume 
+pvcreate /dev/sdb
+pvdisplay
+sudo pvscan
+***Create a volume group nsurname
+sudo vgcreate bmirrakhimov /dev/sdb
+***Create a logical volume nsurname: size: 50% of free space
+sudo lvcreate bmirrakhimov -l 50%VG -n bmirrakhimov
+lvdisplay
+***Create file system: ext4
+sudo mkfs.ext4 /dev/bmirrakhimov/bmirrakhimov
+***Mount the logical volume to /lvm/ directory (permanently)
+sudo mkdir -p /lvm/
+sudo mount /dev/bmirrakhimov/bmirrakhimov /lvm
