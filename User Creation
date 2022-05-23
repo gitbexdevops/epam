@@ -130,3 +130,35 @@ VOLUME [ "/data/www" ]
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
+
+
+
+===============================================
+
+Guess docker run parameters so that:
+
+$ docker run ...
+$ docker exec -it box sh
+/data $ id
+uid=1000 gid=550 groups=1200
+/data $ echo $STUDENT
+bmirrakhimov
+/data $ ps -ef
+PID   USER     TIME  COMMAND
+    1 1000      0:00 sleep infinity
+    6 1000      0:00 sh
+   13 1000      0:00 ps -ef
+/data $ exit
+
+
+docker run -d --rm --name box -w /data -e STUDENT=bmirrakhimov -u 1000:550 --group-add 1200 0ac33e5f5afa sleep infinity
+
+docker container prune -f
+
+docker exec -it box sh
+
+docker container stop $(docker container ls -aq)
+
+apt-get update && apt-get install -y procps
+
+====================================================================================================================
